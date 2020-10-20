@@ -4,7 +4,7 @@ import * as request from 'supertest'
 import {Client} from '../src/clients'
 import {Policy} from '../src/policies'
 
-import router, {RouterProps} from '../src/router'
+import router, {RouterProps} from '../src/api'
 
 const app = express()
 beforeAll(() => {
