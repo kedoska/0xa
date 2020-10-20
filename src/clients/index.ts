@@ -10,10 +10,9 @@ export enum Role {
   User = 'user',
 }
 
-export default (endpoint: string): Promise<{clients: Client[]}> =>
-  new Promise(async (resolve, reject)=> {
+export default (endpoint: string): Promise<{ clients: Client[] }> =>
+  new Promise(async (resolve, reject) => {
     const response = await fetch(endpoint)
     const json = await response.json()
-    console.dir(json)
     resolve(json)
   })
