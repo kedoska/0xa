@@ -1,3 +1,5 @@
+import fetch from 'node-fetch'
+
 export interface Client {
   id: string
   name: string

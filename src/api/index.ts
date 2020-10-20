@@ -1,4 +1,3 @@
-import 'whatwg-fetch'
 import { RequestHandler, Router, urlencoded } from 'express'
 import clients from '../clients'
 import policies from '../policies'
@@ -62,32 +61,36 @@ export default (props: RouterProps): Router => {
   })
 
   router.get('/auth', async (req, res) => {
-    const { email = '' } = req.query
-    if (!email) {
-      return res.status(400).send()
-    }
-    const data = await clients(props.clientEndpoint)
-    if (!data.clients) {
-      return res.status(404).send()
-    }
-    const client = data.clients.find((x) => x.email === email)
-    if (!client) {
-      return res.status(401).send()
-    }
+    try {
+      const { email = '' } = req.query
+      if (!email) {
+        return res.status(400).send()
+      }
+      const data = await clients(props.clientEndpoint)
+      if (!data.clients) {
+        return res.status(404).send()
+      }
+      const client = data.clients.find((x) => x.email === email)
+      if (!client) {
+        return res.status(401).send()
+      }
 
-    const token = await tokenize(
-      {
-        id: client.id,
-        scope: client.role,
-      },
-      props.tokenSecret,
-    )
+      const token = await tokenize(
+        {
+          id: client.id,
+          scope: client.role,
+        },
+        props.tokenSecret,
+      )
 
-    res.send({
-      access_token: token,
-      token_type: 'Bearer',
-      expires_in: 3600,
-    })
+      res.send({
+        access_token: token,
+        token_type: 'Bearer',
+        expires_in: 3600,
+      })
+    } catch ({ message }) {
+      return res.status(500).send(message)
+    }
   })
 
   return router

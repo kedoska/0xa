@@ -1,3 +1,5 @@
+import fetch from 'node-fetch'
+
 export interface Policy {
   id: string
   amountInsured: number
