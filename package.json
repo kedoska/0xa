@@ -13,5 +13,12 @@
     "policies"
   ],
   "author": "Marco Casula <marco.casula@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "typescript": "^3.9.2"
+  }
 }
