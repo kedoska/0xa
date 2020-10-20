@@ -1,0 +1,17 @@
+{
+  "name": "amaris-axa",
+  "version": "0.0.1",
+  "description": "API to manage infomation regartind insurance policies and company clients.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "api",
+    "rest",
+    "insurance",
+    "policies"
+  ],
+  "author": "Marco Casula <marco.casula@gmail.com>",
+  "license": "ISC"
+}
