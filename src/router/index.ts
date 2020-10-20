@@ -1,6 +1,7 @@
 import 'whatwg-fetch'
 import { Router, urlencoded } from "express"
 import clients from "../clients"
+import policies from '../policies'
 
 export interface RouterProps {
   clientEndpoint: string
@@ -39,6 +40,24 @@ export default (props: RouterProps): Router => {
     }
     res.send(results[0])
   })
+
+  router.get('/v1/users/:id/policies', async (req, res) => {
+    const {id = ''} = req.params
+    if (!id) {
+      return res.status(400).send()
+    }
+    const data = await policies(props.policyendpoint)
+    if (!data.policies) {
+      return res.status(404).send()
+    }
+    
+    const results = data.policies.filter(x => x.clientId === id)
+    if (!results.length){
+      return res.status(404).send()
+    }
+    res.send(results)
+  })
+
 
   return router
 }

@@ -66,9 +66,9 @@ test('Get the list of policies linked to a user id', function (done) {
     .expect('Content-Type', /json/)
     .end((err, res) => {
       if (err) return done(err)
-      // the body should be a single object (if ID is correct)
+      // the body could be an array of objects 
       const data = res.body as Policy[]
-      expect(data.length).toBeGreaterThanOrEqual(0)
+      expect(data.length).toBeGreaterThanOrEqual(1)
       done()
     })
 })
