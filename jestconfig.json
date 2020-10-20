@@ -8,6 +8,6 @@
   "coverageDirectory": "./coverage/",
   "collectCoverage": true,
   "modulePathIgnorePatterns": [
-    "<rootDir>/lib/"
+    "<rootDir>/build/"
   ]
 }
