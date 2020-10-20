@@ -4,7 +4,8 @@
   "description": "API to manage infomation regartind insurance policies and company clients.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"src/**/*.ts\""
   },
   "keywords": [
     "api",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
+    "prettier": "^2.0.5",
     "typescript": "^3.9.2"
   }
 }
