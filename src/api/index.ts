@@ -1,18 +1,19 @@
 import 'whatwg-fetch'
-import { Router, urlencoded } from 'express'
+import { RequestHandler, Router, urlencoded } from 'express'
 import clients from '../clients'
 import policies from '../policies'
 
 export interface RouterProps {
   clientEndpoint: string
   policyendpoint: string
+  authorization: (roles: string) => RequestHandler
 }
 
 export default (props: RouterProps): Router => {
   const router = Router()
   router.use(urlencoded({ extended: false }))
 
-  router.get('/v1/users', async (req, res) => {
+  router.get('/v1/users', props.authorization('user,admin,owner'), async (req, res) => {
     const { name = '' } = req.query
     const data = await clients(props.clientEndpoint)
     if (!data.clients) {
@@ -25,7 +26,7 @@ export default (props: RouterProps): Router => {
     }
   })
 
-  router.get('/v1/users/:id', async (req, res) => {
+  router.get('/v1/users/:id', props.authorization('user,admin,owner'), async (req, res) => {
     const { id = '' } = req.params
     if (!id) {
       return res.status(400).send()
@@ -41,7 +42,7 @@ export default (props: RouterProps): Router => {
     res.send(results[0])
   })
 
-  router.get('/v1/users/:id/policies', async (req, res) => {
+  router.get('/v1/users/:id/policies', props.authorization('admin,owner'), async (req, res) => {
     const { id = '' } = req.params
     if (!id) {
       return res.status(400).send()
