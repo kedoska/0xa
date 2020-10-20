@@ -17,6 +17,7 @@
   "author": "Marco Casula <marco.casula@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
