@@ -11,5 +11,10 @@ export default (props: RouterProps): Router => {
   const router = Router()
   router.use(urlencoded({ extended: false }))
 
+  router.get('/v1/users', async (req, res) => {
+    const data = await clients(props.clientEndpoint)
+    res.send(data.clients || [])
+  })
+
   return router
 }
