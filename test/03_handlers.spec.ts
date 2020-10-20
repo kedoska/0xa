@@ -11,6 +11,7 @@ beforeAll(() => {
   const routerProps: RouterProps = {
     clientEndpoint: process.env['CLIENT_ENDPOINT'] || '',
     policyendpoint: process.env['POLICY_ENDPOINT'] || '',
+    tokenSecret: process.env['TOKEN_SECRET'] || '',
     // during this test we are always authorized
     authorization: () => (req: express.Request, res: express.Response, next: express.NextFunction) => next()
   }

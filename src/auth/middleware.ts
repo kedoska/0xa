@@ -1,14 +1,17 @@
 import { NextFunction, Request, Response } from 'express'
+import * as jwt from 'jsonwebtoken'
 
 export const getScopes = (scopes: string): string[] => scopes.split(',')
 
-export const requiredRules = (scopes: string) => (req: Request, res: Response, next: NextFunction) => {
+export const requiredRules = (scopes: string, secret: string) => (req: Request, res: Response, next: NextFunction) => {
+  let token: string = ''
   try {
     const {authorization = ''} = req.headers
-    const [scheme, token] = authorization.split(' ')
-    if (!scheme || scheme !== 'Bearer' || !token) {
+    const [scheme, credentials] = authorization.split(' ')
+    if (!scheme || scheme !== 'Bearer' || !credentials) {
       return res.status(401).send()
     }
+    token = credentials
   } catch ({message}) {
     return res.status(401).send()
   }
@@ -20,5 +23,12 @@ export const requiredRules = (scopes: string) => (req: Request, res: Response, n
     return res.status(401).send()
   }
 
-  next()
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).send()
+    }
+    console.log(decoded)
+
+    next()
+  })
 }

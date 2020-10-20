@@ -9,6 +9,7 @@ beforeAll(() => {
   const routerProps: RouterProps = {
     clientEndpoint: process.env['CLIENT_ENDPOINT'] || '',
     policyendpoint: process.env['POLICY_ENDPOINT'] || '',
+    tokenSecret: process.env['TOKEN_SECRET'] || '',
     authorization: requiredRules,
   }
   app.use(router(routerProps))
