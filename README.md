@@ -22,7 +22,7 @@ Once you have the project on your machine, please run the following commands to 
 ### Routes
 
 #### GET `/v1/users/`
- - Require Bearer token (see /auth)
+ - Require Bearer token via header (see /auth)
  - Can be accessed by users with role "`users`" and "`admin`"
  - Can be filtered by name using the querystring `?name=`
  - Returns and array of User
@@ -38,7 +38,7 @@ export interface User {
 ```
 
 #### GET `/v1/users/:id`
- - Require Bearer token (see /auth)
+ - Require Bearer token via header (see /auth)
  - Can be accessed by users with role "`users`" and "`admin`"
  - Returns the User associated to the give `id`
  - If no results are available, `404` is returned
@@ -54,7 +54,7 @@ interface User {
 ```
 
 #### GET `/v1/users/:id/policies`
- - Requires  Bearer token (see /auth)
+ - Requires  Bearer token via header (see /auth)
  - Can be accessed by users with role "admin" and by the own user
  - Get the list of policies of the given user `id`
  - If no results are available, `404` is returned
@@ -84,4 +84,23 @@ interface Policy {
   token_type: string  // Bearer
   expires_in: number  // 3600
 }
+```
+
+## Start the server locally
+
+1. make sure your project compiles as it should be, run `npm run build`.
+2. start the server locally, run `npm start`.
+3. At this point you should see `running on 8080` (1 per availabe CPU on your dev machine).
+
+### Generate a token
+4. navigate to `http://localhost:8080/auth?email=manningblankenship@quotezart.com`.
+5. copy the `access_token` somewhere (maybe a variable `TOKEN`)
+
+### Get some data
+6. get all the users, using the token generated on the step `5`
+
+```bash
+curl  -H 'Accept: application/json' \
+      -H "Authorization: Bearer ${TOKEN}" \
+      http://localhost:8080/v1/users
 ```
