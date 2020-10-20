@@ -43,7 +43,7 @@ export const requiredRules = (scopes: string, secret: string) => (req: Request, 
 export const tokenize = (obj: TokenObject, secret: string): Promise<string> =>
   new Promise((resolve, reject) => {
     try {
-      const token = jwt.sign(obj, secret)
+      const token = jwt.sign(obj, secret, { expiresIn: 60 * 60 })
       resolve(token)
     } catch (err) {
       reject(err)

@@ -1,6 +1,5 @@
 import * as express from 'express'
 import * as request from 'supertest'
-import * as jwt from 'jsonwebtoken'
 import router, { RouterProps } from '../src/api'
 import { requiredRules, tokenize } from '../src/auth/middleware'
 import { Client } from '../src/clients'
@@ -16,6 +15,29 @@ beforeAll(() => {
     authorization: requiredRules,
   }
   app.use(router(routerProps))
+})
+
+it('should generate a token', async (done) => {
+  const email = 'britneyblankenship@quotezart.com'
+  request(app)
+    .get(`/auth?email=${email}`)
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .end((err, res) => {
+      if (err) return done(err)
+
+      interface Token {
+        access_token: string 
+        token_type: string
+        expires_in: number
+      }
+
+      const data = res.body as Token
+      expect(data.token_type).toBe('Bearer')
+      expect(data.expires_in).toBe(60 * 60)
+
+      done()
+    })
 })
 
 it('should fail without token', (done) => {
@@ -39,7 +61,7 @@ it('should authorize and admin via Bearer token', async (done) => {
     .end((err, res) => {
       if (err) return done(err)
       const data = res.body as Client[]
-      expect(data.length).toBeGreaterThanOrEqual(1) // MAKE SURE you have at least a Jerry in the CLIENT_ENDPOINT
+      expect(data.length).toBeGreaterThanOrEqual(1)
       done()
     })
 })

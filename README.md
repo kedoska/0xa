@@ -54,7 +54,7 @@ interface User {
 ```
 
 #### GET `/v1/users/:id/policies`
- - Require Bearer token (see /auth)
+ - Requires  Bearer token (see /auth)
  - Can be accessed by users with role "admin" and by the own user
  - Get the list of policies of the given user `id`
  - If no results are available, `404` is returned
@@ -73,3 +73,15 @@ interface Policy {
 ### Authentication
 
 #### GET `/auth`
+ - Requires `email` via querystring
+ - If the client is found, a token is generated
+ - If no results are available, `401` is returned
+ - Returns a JSON object having the customer data and the new token
+
+```typescript
+{
+  access_token: string
+  token_type: string  // Bearer
+  expires_in: number  // 3600
+}
+```
