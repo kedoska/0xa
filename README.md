@@ -19,7 +19,10 @@ Once you have the project on your machine, please run the following commands to 
 
 ## A.P.I.
 
+### Routes
+
 #### GET `/v1/users/`
+ - Require Bearer token (see /auth)
  - Can be accessed by users with role "`users`" and "`admin`"
  - Can be filtered by name using the querystring `?name=`
  - Returns and array of User
@@ -35,6 +38,7 @@ export interface User {
 ```
 
 #### GET `/v1/users/:id`
+ - Require Bearer token (see /auth)
  - Can be accessed by users with role "`users`" and "`admin`"
  - Returns the User associated to the give `id`
  - If no results are available, `404` is returned
@@ -50,6 +54,7 @@ interface User {
 ```
 
 #### GET `/v1/users/:id/policies`
+ - Require Bearer token (see /auth)
  - Can be accessed by users with role "admin" and by the own user
  - Get the list of policies of the given user `id`
  - If no results are available, `404` is returned
@@ -64,3 +69,7 @@ interface Policy {
   clientId: string
 }
 ```
+
+### Authentication
+
+#### GET `/auth`
