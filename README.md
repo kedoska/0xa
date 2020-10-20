@@ -38,6 +38,7 @@ export interface User {
  - Can be accessed by users with role "`users`" and "`admin`"
  - Returns the User associated to the give `id`
  - If no results are available, `404` is returned
+ - If no ID is provided, `400` is returned
 
 ```typescript
 interface User {

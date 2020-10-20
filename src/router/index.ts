@@ -24,5 +24,21 @@ export default (props: RouterProps): Router => {
     }
   })
 
+  router.get('/v1/users/:id', async (req, res) => {
+    const {id = ''} = req.params
+    if (!id) {
+      return res.status(400).send()
+    }
+    const data = await clients(props.clientEndpoint)
+    if (!data.clients) {
+      return res.status(404).send()
+    }
+    const results = data.clients.filter(x => x.id === id)
+    if (!results.length){
+      return res.status(404).send()
+    }
+    res.send(results[0])
+  })
+
   return router
 }
