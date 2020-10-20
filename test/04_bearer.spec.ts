@@ -22,10 +22,10 @@ it('should fail without token', (done) => {
   request(app)
     .get('/v1/users/a0ece5db-cd14-4f21-812f-966633e7be86')
     .expect(401)
-    .end((err, res) => done())
+    .end(done)
 })
 
-it('should authorize access via Bearer token', async (done) => {
+it('should authorize and admin via Bearer token', async (done) => {
 
   const id = 'a0ece5db-cd14-4f21-812f-966633e7be86'
   const scope = 'admin'
@@ -42,4 +42,17 @@ it('should authorize access via Bearer token', async (done) => {
       expect(data.length).toBeGreaterThanOrEqual(1) // MAKE SURE you have at least a Jerry in the CLIENT_ENDPOINT
       done()
     })
+})
+
+it('should deny access to user', async (done) => {
+
+  const id = 'a3b8d425-2b60-4ad7-becc-bedf2ef860bd'
+  const scope = 'user'
+  const token = await tokenize({id, scope}, tokenSecret)
+
+  request(app)
+    .get('/v1/users/a3b8d425-2b60-4ad7-becc-bedf2ef860bd/policies')
+    .set('Authorization', 'Bearer ' + token)
+    .expect(401)
+    .end(done)
 })
